@@ -8,7 +8,7 @@ function Blogs(){
     return(
         <>
         <div className="flex-1 py-4 flex flex-col items-center gap-y-6 overflow-y-auto scrollbar-hide">
-            {(data.posts).map((obj)=>(<Blog obj={obj}/>))}
+            {(data.posts).map((obj)=>(<Blog key={obj.id} obj={obj}/>))}
         </div>
         </>
     )

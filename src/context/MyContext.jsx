@@ -5,14 +5,22 @@ const MyContext=createContext()
 export default MyContext
 
 export function MyContextProvider({children}){
+    
     const[loading,setLoading]=useState(false)
-    const[currentPage,changeCurrentPage]=useState(1)
     const[totalPage,setTotalPage]=useState(null)
     const [data,setData]=useState([])
-    async function apiCall(currentPage=1){
+    async function apiCall(page=1, tag=null, category=null){
         setLoading(true);
+        let url=`https://codehelp-apis.vercel.app/api/get-blogs?page=${page}`
+        if(tag){
+            url+=`&tag=${tag}`
+        }
+        if(category){
+            url+=`&category=${category}`
+        }
+        
         try{
-            let res=await fetch(`https://codehelp-apis.vercel.app/api/get-blogs?page=${currentPage}`)
+            let res=await fetch(url)
             let result=await res.json()
             setData(result)
             setLoading(false)
@@ -24,7 +32,7 @@ export function MyContextProvider({children}){
         }
     }
     
-    const value={loading,setLoading,currentPage,changeCurrentPage,apiCall,totalPage,data}
+    const value={loading,setLoading,apiCall,totalPage,data}
     return(
         <MyContext.Provider value={value}>
             {children}
